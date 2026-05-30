@@ -4,6 +4,18 @@ Open-source clinical AI agent tooling from [DrVibe.ai](https://drvibe.ai) — bu
 
 > **⚠️ Important.** These tools are educational/workflow infrastructure. They are **not** medical advice, **not** a medical device, and come with **no warranty**. They query **public, non-PHI** data sources only — never put protected health information into a query or a third-party model without appropriate agreements and safeguards. See [DISCLAIMER.md](./DISCLAIMER.md).
 
+## 📺 See it in action
+
+Short explainers — built with [HyperFrames](https://hyperframes.heygen.com), voiced with ElevenLabs. Click a file to play it on GitHub.
+
+| Video | What it shows |
+|---|---|
+| ▶️ [**DrVibe Skills — overview**](media/videos/drvibe-skills-overview.mp4) · 48s | What DrVibe Skills are, how you drop them into Claude / Codex / Cursor / Hermes, and the open stack. |
+| ▶️ [**The AI Physician**](media/videos/the-ai-physician.mp4) · 26s | Practice-management plugin: finances, operations, HIPAA-readiness, research, patient education — ships the clinical-data MCP. |
+| ▶️ [**The AI Resident**](media/videos/the-ai-resident.mp4) · 28s | Six ward commands — notes, differentials, case presentations, evidence, I-PASS handoffs, procedures. PGY-adaptive. |
+| ▶️ [**clinical-apis-mcp**](media/videos/clinical-apis-mcp.mp4) · 32s | Live access to eight free public clinical data sources, from any agent — no API key. |
+| ▶️ [**Patient Communication pack**](media/videos/patient-comms.mp4) · 29s | Five front-office skills — education, recall, membership nurture, review responses, visit summaries. |
+
 ## Packages
 
 | Package | What it does |
