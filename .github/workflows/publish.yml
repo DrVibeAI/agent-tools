@@ -1,0 +1,35 @@
+name: Publish packages
+
+# Publishes the workspaces to npm. Triggered by a GitHub Release (recommended)
+# or manually via "Run workflow". Requires an NPM_TOKEN repo secret (an npm
+# Automation/Granular token with publish rights to the @drvibeai scope).
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # enables npm provenance
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: "https://registry.npmjs.org"
+      - run: npm install
+      - name: Syntax check
+        run: npm run check
+      - name: phi-guard tests (offline)
+        run: node packages/phi-guard/test/smoke.mjs
+      - name: Publish @drvibeai/clinical-apis-mcp
+        run: npm publish -w @drvibeai/clinical-apis-mcp --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish @drvibeai/phi-guard
+        run: npm publish -w @drvibeai/phi-guard --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
