@@ -35,7 +35,22 @@ The drvibe.ai education + skills platform is a separate, private product. It **c
 - ✅ `clinical-apis-mcp` — free public clinical data, one MCP.
 - ✅ `phi-guard` — agent PHI-minimization.
 - ⏭️ `skills` — the public healthcare Agent-Skill catalog + format spec + build tooling.
-- ⏭️ `marketplace.json` — a Claude Code plugin marketplace (`/plugin marketplace add DrVibeAI/agent-tools`).
+- ✅ `marketplace.json` — Claude Code plugin marketplace (`/plugin marketplace add DrVibeAI/agent-tools`).
+
+## Plugins (Claude Code marketplace)
+
+This repo is also a Claude Code plugin marketplace:
+
+```bash
+/plugin marketplace add DrVibeAI/agent-tools
+/plugin install the-ai-physician@drvibeai
+/plugin install the-ai-resident@drvibeai
+```
+
+- **the-ai-physician** — practice-management toolkit (research, finances, operations, HIPAA-readiness, patient education).
+- **the-ai-resident** — resident toolkit (notes, differentials, case prep, evidence, I-PASS handoffs, procedures).
+
+Both ship the **`@drvibeai/clinical-apis-mcp`** server preconfigured for live clinical data.
 
 ## Contributing & security
 

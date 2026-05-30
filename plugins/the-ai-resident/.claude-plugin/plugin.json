@@ -1,0 +1,6 @@
+{
+  "name": "the-ai-resident",
+  "description": "Clinical toolkit for medical residents. Slash commands for documentation, differential diagnosis, case presentations, evidence-based medicine, structured handoffs, and procedure preparation. Built by physicians, for physicians-in-training.",
+  "version": "1.0.0",
+  "author": "The AI Physician / DrVibe.ai"
+}

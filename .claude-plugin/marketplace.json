@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "drvibeai",
+  "owner": {
+    "name": "DrVibe.ai",
+    "url": "https://drvibe.ai"
+  },
+  "metadata": {
+    "description": "DrVibe AI — clinical agent plugins for physicians. Educational/workflow tools; not medical advice. Public, non-PHI data only.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "the-ai-physician",
+      "source": "./plugins/the-ai-physician",
+      "description": "Practice-management toolkit for attending physicians: clinical research, finances, operations, HIPAA-readiness, and patient education. Ships the @drvibeai/clinical-apis-mcp server preconfigured.",
+      "version": "1.0.0",
+      "author": "DrVibe.ai"
+    },
+    {
+      "name": "the-ai-resident",
+      "source": "./plugins/the-ai-resident",
+      "description": "Clinical toolkit for residents: notes, differentials, case presentations, evidence lookup, I-PASS handoffs, and procedure prep. PGY-adaptive; ships the @drvibeai/clinical-apis-mcp server.",
+      "version": "1.0.0",
+      "author": "DrVibe.ai"
+    }
+  ]
+}
