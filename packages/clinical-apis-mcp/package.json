@@ -6,7 +6,7 @@
   "bin": {
     "drvibe-clinical-apis-mcp": "src/server.mjs"
   },
-  "files": ["src", "README.md"],
+  "files": ["src", "README.md", "LICENSE"],
   "engines": { "node": ">=18" },
   "scripts": {
     "start": "node src/server.mjs",
@@ -16,6 +16,13 @@
     "@modelcontextprotocol/sdk": "^1.0.0"
   },
   "keywords": ["mcp", "clinical", "pubmed", "clinicaltrials", "openfda", "icd10", "rxnorm", "europepmc", "healthcare", "drvibe"],
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DrVibeAI/agent-tools.git",
+    "directory": "packages/clinical-apis-mcp"
+  },
+  "homepage": "https://github.com/DrVibeAI/agent-tools/tree/main/packages/clinical-apis-mcp",
+  "bugs": "https://github.com/DrVibeAI/agent-tools/issues",
+  "license": "Apache-2.0",
   "author": "DrVibe.ai"
 }
