@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "clinical-apis": {
+    "clinical_apis": {
       "command": "npx",
       "args": ["-y", "@drvibeai/clinical-apis-mcp"]
     }

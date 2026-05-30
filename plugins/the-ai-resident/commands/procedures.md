@@ -4,7 +4,7 @@ description: >
   step-by-step technique, anatomy review, complications, and post-procedure care
   for common resident procedures. Tailored to your PGY level and experience.
 allowed-tools:
-  - mcp__pubmed__*
+  - mcp__clinical_apis__pubmed_search
 ---
 
 # Procedure Preparation Tool

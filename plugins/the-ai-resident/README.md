@@ -50,10 +50,11 @@ Ships with the **[`@drvibeai/clinical-apis-mcp`](https://www.npmjs.com/package/@
 ### Option B: Clone from GitHub
 
 ```bash
-git clone https://github.com/[your-org]/the-ai-resident.git
+git clone https://github.com/DrVibeAI/agent-tools.git
+cd agent-tools/plugins/the-ai-resident
 ```
 
-Then point Claude Desktop to the cloned folder.
+Then point Claude Desktop to the `plugins/the-ai-resident` folder.
 
 ---
 

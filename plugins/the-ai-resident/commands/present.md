@@ -4,7 +4,8 @@ description: >
   Grand Rounds, and tumor boards. Structures your case to the audience and format.
   Helps with clinical reasoning narrative and teaching points.
 allowed-tools:
-  - mcp__pubmed__*
+  - mcp__clinical_apis__pubmed_search
+  - mcp__clinical_apis__europepmc_search
 ---
 
 # Case Presentation Coach

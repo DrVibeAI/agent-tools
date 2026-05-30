@@ -33,27 +33,29 @@ preprints, openFDA, RxNorm, ICD-10, MedlinePlus, NPI.
 
 ## Install / wire
 
-> Not yet published to npm. Until then, reference it locally; after `npm publish`
-> under the DrVibe org, the `npx` one-liner works.
+This package is published on npm as
+[`@drvibeai/clinical-apis-mcp`](https://www.npmjs.com/package/@drvibeai/clinical-apis-mcp).
+Use the `npx` setup for normal plugin/agent installs; use the local `node`
+setup only while developing this repository.
+
+**Published package:**
+```json
+{
+  "mcpServers": {
+    "clinical_apis": { "command": "npx", "args": ["-y", "@drvibeai/clinical-apis-mcp"] }
+  }
+}
+```
 
 **Local (dev):**
 ```json
 {
   "mcpServers": {
-    "clinical-apis": {
+    "clinical_apis": {
       "command": "node",
       "args": ["/absolute/path/to/packages/clinical-apis-mcp/src/server.mjs"],
       "env": { "NCBI_API_KEY": "", "OPENFDA_API_KEY": "" }
     }
-  }
-}
-```
-
-**After publishing:**
-```json
-{
-  "mcpServers": {
-    "clinical-apis": { "command": "npx", "args": ["-y", "@drvibeai/clinical-apis-mcp"] }
   }
 }
 ```

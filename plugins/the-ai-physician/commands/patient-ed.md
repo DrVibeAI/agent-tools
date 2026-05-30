@@ -3,7 +3,8 @@ description: >
   Create patient education materials at the right reading level. Explain
   diagnoses, medications, lab results, procedures, and discharge instructions
   using plain language, empathy, and health literacy best practices.
-allowed-tools: []
+allowed-tools:
+  - mcp__clinical_apis__medlineplus_by_code
 ---
 
 # Patient Education Specialist

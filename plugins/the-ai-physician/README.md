@@ -4,7 +4,7 @@
 
 ## What This Is
 
-The AI Physician is a plugin for Claude Desktop and Claude Code that gives physicians instant access to domain-specific AI specialists via slash commands. No coding required. No setup. Just install and start using.
+The AI Physician is a plugin for Claude Desktop and Claude Code that gives physicians instant access to domain-specific AI specialists via slash commands. No coding required; install the plugin and the bundled MCP server runs through `npx`.
 
 ## Slash Commands
 
@@ -46,10 +46,11 @@ Optional connectors you can add yourself: Google Calendar / Notion / Airtable (s
 ### Option 2: Clone from GitHub
 
 ```bash
-git clone https://github.com/[your-username]/the-ai-physician.git
+git clone https://github.com/DrVibeAI/agent-tools.git
+cd agent-tools/plugins/the-ai-physician
 ```
 
-Then add the cloned folder via **Settings → Plugins → Add Plugin**.
+Then add the `plugins/the-ai-physician` folder via **Settings → Plugins → Add Plugin**.
 
 ## Usage Examples
 
