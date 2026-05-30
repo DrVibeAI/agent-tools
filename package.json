@@ -1,0 +1,25 @@
+{
+  "name": "@drvibeai/agent-tools",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Open-source clinical AI agent tooling from DrVibe.ai — MCP servers, PHI-minimization, and skill tooling.",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "check": "find packages -name '*.mjs' -not -path '*/node_modules/*' -print0 | xargs -0 -n1 node --check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DrVibeAI/agent-tools.git"
+  },
+  "homepage": "https://github.com/DrVibeAI/agent-tools",
+  "bugs": "https://github.com/DrVibeAI/agent-tools/issues",
+  "license": "Apache-2.0",
+  "author": "DrVibe.ai",
+  "engines": {
+    "node": ">=18"
+  }
+}

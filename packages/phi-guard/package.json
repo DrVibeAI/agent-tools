@@ -1,0 +1,24 @@
+{
+  "name": "@drvibeai/phi-guard",
+  "version": "0.1.0",
+  "description": "Agent PHI-minimization toolkit: a BAA compliance gate + local redact/rehydrate so patient identifiers never reach a non-BAA model. Risk reduction, NOT certified de-identification.",
+  "type": "module",
+  "main": "src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "files": ["src", "README.md", "LICENSE"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "test": "node test/smoke.mjs"
+  },
+  "keywords": ["hipaa", "phi", "de-identification", "redaction", "mcp", "agent", "healthcare", "drvibe"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DrVibeAI/agent-tools.git",
+    "directory": "packages/phi-guard"
+  },
+  "homepage": "https://github.com/DrVibeAI/agent-tools/tree/main/packages/phi-guard",
+  "license": "Apache-2.0",
+  "author": "DrVibe.ai"
+}

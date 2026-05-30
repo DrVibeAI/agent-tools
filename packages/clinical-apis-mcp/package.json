@@ -1,0 +1,21 @@
+{
+  "name": "@drvibeai/clinical-apis-mcp",
+  "version": "0.1.0",
+  "description": "MCP server exposing free public clinical/biomedical APIs: ClinicalTrials.gov v2, PubMed, Europe PMC (incl. medRxiv/bioRxiv preprints), openFDA, RxNorm, ICD-10-CM, MedlinePlus, NPI Registry.",
+  "type": "module",
+  "bin": {
+    "drvibe-clinical-apis-mcp": "src/server.mjs"
+  },
+  "files": ["src", "README.md"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node test/smoke.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "keywords": ["mcp", "clinical", "pubmed", "clinicaltrials", "openfda", "icd10", "rxnorm", "europepmc", "healthcare", "drvibe"],
+  "license": "MIT",
+  "author": "DrVibe.ai"
+}
