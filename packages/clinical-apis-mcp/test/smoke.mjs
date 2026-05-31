@@ -15,6 +15,8 @@ const cases = [
   ["dailymed_label", { drugName: "metformin", pageSize: 2 }],
   ["chembl_molecule", { query: "metformin", limit: 2 }],
   ["mygene_query", { query: "FOXO3", size: 2 }],
+  ["opentargets_associations", { query: "FOXO3", kind: "target", size: 3 }],
+  ["gwas_snp", { rsId: "rs2802292", limit: 3 }],
 ];
 
 let pass = 0;

@@ -165,6 +165,31 @@ const TOOL_DEFS = [
       required: ["query"],
     },
   },
+  {
+    name: "opentargets_associations",
+    description: "Open Targets (GraphQL): resolve a gene (kind=target), disease (kind=disease), or drug and return scored associations. For a gene → top associated diseases; for a disease → top associated targets. Score 0-1 aggregates genetic (incl. GWAS), drug, expression, and literature evidence — NOT proof of causation/efficacy. Great for longevity gene/target context.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: { type: "string", description: "Gene symbol (e.g. 'FOXO3'), disease name, or drug name" },
+        kind: { type: "string", enum: ["target", "disease", "drug"], description: "What the query is (default 'target')" },
+        size: { type: "number", description: "Max associations (default 10, cap 25)" },
+      },
+      required: ["query"],
+    },
+  },
+  {
+    name: "gwas_snp",
+    description: "GWAS Catalog: genotype-phenotype associations for a SNP by rsID (e.g. 'rs2802292'). Returns trait(s), p-value, risk allele, reported genes, and effect size. Statistical population-level associations — not causal or individual clinical predictions.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        rsId: { type: "string", description: "dbSNP rsID, e.g. 'rs2802292'" },
+        limit: { type: "number", description: "Max associations (default 10, cap 25)" },
+      },
+      required: ["rsId"],
+    },
+  },
 ];
 
 const server = new Server(

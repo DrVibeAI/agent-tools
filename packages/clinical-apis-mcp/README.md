@@ -26,8 +26,10 @@ third-party packages (this replaces the bogus `biorxiv-mcp-server` /
 | `dailymed_label` | DailyMed (NLM SPL) | none | Authoritative FDA Structured Product Labels (setid + drugInfo URL); complements openFDA |
 | `chembl_molecule` | ChEMBL (EMBL-EBI) | none | Molecule development phase (`max_phase`), type, first approval, ATC class, black-box-warning flag |
 | `mygene_query` | MyGene.info (BioThings) | none | Gene symbol/name/RefSeq summary/aliases/Entrez ID (e.g. FOXO3, APOE, KLOTHO) |
+| `opentargets_associations` | Open Targets (EMBL-EBI) | none | Gene→disease / disease→target **scored** associations (genetics incl. GWAS, drugs, expression, literature) |
+| `gwas_snp` | GWAS Catalog (EMBL-EBI) | none | SNP (rsID) → trait(s), p-value, risk allele, reported genes, effect size |
 
-Optional env keys are **free** and only raise rate limits.
+Optional env keys are **free** and only raise rate limits. Association/GWAS results are statistical, population-level evidence — **not** proof of causation or individual clinical predictions.
 
 ## Why not Claude's PubMed connector?
 

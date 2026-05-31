@@ -19,6 +19,17 @@ async function getJson(url, { timeoutMs = 12000 } = {}) {
     clearTimeout(t);
   }
 }
+async function postJson(url, body, { timeoutMs = 15000 } = {}) {
+  const ac = new AbortController();
+  const t = setTimeout(() => ac.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { method: "POST", headers: { "User-Agent": UA, "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(body), signal: ac.signal });
+    if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+    return await res.json();
+  } finally {
+    clearTimeout(t);
+  }
+}
 const enc = encodeURIComponent;
 const clip = (s, n = 600) => (typeof s === "string" && s.length > n ? s.slice(0, n) + "…" : s);
 
@@ -272,6 +283,58 @@ export async function mygeneQuery({ query, species = "human", size = 5 }) {
   return { source: "MyGene.info", query, total: data.total, count: results.length, results, source_url: url };
 }
 
+// 14) Open Targets (EMBL-EBI / Open Targets) — free, no key. GraphQL. Resolves a gene
+//     (target) or disease and returns scored associations. Score 0-1 aggregates genetic
+//     (incl. GWAS), drug, expression, and literature evidence — NOT proof of causation/efficacy.
+export async function opentargetsAssociations({ query, kind = "target", size = 10 }) {
+  const GQL = "https://api.platform.opentargets.org/api/v4/graphql";
+  const ent = kind === "disease" ? "disease" : kind === "drug" ? "drug" : "target";
+  const n = Math.min(size, 25);
+  const NOTE = "Open Targets association score (0-1) aggregates genetic, drug, expression, and literature evidence — not proof of causation or efficacy.";
+  const s = await postJson(GQL, { query: `query($q:String!,$e:[String!]){search(queryString:$q,entityNames:$e){hits{id name entity}}}`, variables: { q: query, e: [ent] } });
+  const hits = s.data?.search?.hits || [];
+  const hit = hits.find((h) => h.entity === ent) || hits[0];
+  if (!hit) return { source: "Open Targets", query, count: 0, results: [], source_url: "https://platform.opentargets.org" };
+  if (hit.entity === "target") {
+    const d = await postJson(GQL, { query: `query($id:String!,$n:Int!){target(ensemblId:$id){approvedSymbol associatedDiseases(page:{index:0,size:$n}){count rows{score disease{id name}}}}}`, variables: { id: hit.id, n } });
+    const ad = d.data?.target?.associatedDiseases;
+    return { source: "Open Targets", query, resolved: { symbol: d.data?.target?.approvedSymbol, ensemblId: hit.id }, mode: "target→diseases", total: ad?.count, count: (ad?.rows || []).length, results: (ad?.rows || []).map((r) => ({ disease: r.disease.name, diseaseId: r.disease.id, associationScore: Number(r.score.toFixed(3)) })), note: NOTE, source_url: `https://platform.opentargets.org/target/${hit.id}` };
+  }
+  if (hit.entity === "disease") {
+    const d = await postJson(GQL, { query: `query($id:String!,$n:Int!){disease(efoId:$id){name associatedTargets(page:{index:0,size:$n}){count rows{score target{approvedSymbol}}}}}`, variables: { id: hit.id, n } });
+    const at = d.data?.disease?.associatedTargets;
+    return { source: "Open Targets", query, resolved: { name: d.data?.disease?.name, efoId: hit.id }, mode: "disease→targets", total: at?.count, count: (at?.rows || []).length, results: (at?.rows || []).map((r) => ({ target: r.target.approvedSymbol, associationScore: Number(r.score.toFixed(3)) })), note: NOTE, source_url: `https://platform.opentargets.org/disease/${hit.id}` };
+  }
+  return { source: "Open Targets", query, resolved: hit, mode: "drug", count: 0, results: [], note: "Resolved a drug entity; see the platform for mechanisms/indications.", source_url: `https://platform.opentargets.org/drug/${hit.id}` };
+}
+
+// 15) GWAS Catalog (EMBL-EBI) — free, no key. Genotype-phenotype associations for a
+//     SNP (rsID): trait(s), p-value, risk allele, reported genes, effect size. These are
+//     statistical population-level links — not causal, not individual clinical predictions.
+export async function gwasSnp({ rsId, limit = 10 }) {
+  const url = `https://www.ebi.ac.uk/gwas/rest/api/singleNucleotidePolymorphisms/${enc(rsId)}/associations`;
+  const data = await getJson(url);
+  const assocs = (data._embedded?.associations || []).slice(0, Math.min(limit, 25));
+  const results = await Promise.all(assocs.map(async (a) => {
+    let traits = [];
+    try {
+      const href = a._links?.efoTraits?.href;
+      if (href) traits = ((await getJson(href))._embedded?.efoTraits || []).map((t) => t.trait);
+    } catch { /* trait link is optional */ }
+    const locus = a.loci?.[0] || {};
+    return {
+      traits,
+      pValue: a.pvalueMantissa != null ? `${a.pvalueMantissa}e${a.pvalueExponent}` : a.pvalue,
+      riskAllele: locus.strongestRiskAlleles?.[0]?.riskAlleleName,
+      riskFrequency: a.riskFrequency,
+      reportedGenes: (locus.authorReportedGenes || []).map((g) => g.geneName),
+      beta: a.betaNum != null ? [a.betaNum, a.betaUnit, a.betaDirection].filter(Boolean).join(" ") : undefined,
+      orPerCopy: a.orPerCopyNum,
+    };
+  }));
+  return { source: "GWAS Catalog", rsId, count: results.length, results, note: "Statistical, population-level genotype-phenotype associations — not causal, not individual clinical predictions.", source_url: url };
+}
+
 export const TOOLS = {
   clinicaltrials_search: clinicaltrialsSearch,
   pubmed_search: pubmedSearch,
@@ -286,4 +349,6 @@ export const TOOLS = {
   dailymed_label: dailymedLabel,
   chembl_molecule: chemblMolecule,
   mygene_query: mygeneQuery,
+  opentargets_associations: opentargetsAssociations,
+  gwas_snp: gwasSnp,
 };
