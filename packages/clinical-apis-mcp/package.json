@@ -1,7 +1,7 @@
 {
   "name": "@drvibeai/clinical-apis-mcp",
-  "version": "0.1.0",
-  "description": "MCP server exposing free public clinical/biomedical APIs: ClinicalTrials.gov v2, PubMed, Europe PMC (incl. medRxiv/bioRxiv preprints), openFDA, RxNorm, ICD-10-CM, MedlinePlus, NPI Registry.",
+  "version": "0.2.0",
+  "description": "MCP server exposing free public clinical/biomedical APIs: ClinicalTrials.gov v2, PubMed, Europe PMC (incl. medRxiv/bioRxiv preprints), openFDA, RxNorm, ICD-10-CM, MedlinePlus, NPI Registry, OpenAlex, PubChem, DailyMed, ChEMBL, MyGene.info.",
   "type": "module",
   "bin": {
     "drvibe-clinical-apis-mcp": "src/server.mjs"
@@ -15,7 +15,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0"
   },
-  "keywords": ["mcp", "clinical", "pubmed", "clinicaltrials", "openfda", "icd10", "rxnorm", "europepmc", "healthcare", "drvibe"],
+  "keywords": ["mcp", "clinical", "pubmed", "clinicaltrials", "openfda", "icd10", "rxnorm", "europepmc", "openalex", "pubchem", "chembl", "dailymed", "mygene", "longevity", "healthcare", "drvibe"],
   "repository": {
     "type": "git",
     "url": "https://github.com/DrVibeAI/agent-tools.git",

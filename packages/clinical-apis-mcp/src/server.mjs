@@ -106,6 +106,65 @@ const TOOL_DEFS = [
       },
     },
   },
+  {
+    name: "openalex_search",
+    description: "Search OpenAlex — open scholarly works across all of science (broader than PubMed; includes open-access status and citation counts). Public data; send a search term.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: { type: "string" },
+        perPage: { type: "number", description: "Max results (default 10, cap 50)" },
+        fromYear: { type: "number", description: "Optional: only works published on/after this year" },
+      },
+      required: ["query"],
+    },
+  },
+  {
+    name: "pubchem_compound",
+    description: "Look up a compound by name in PubChem (NCBI) and return identity + properties (CID, formula, weight, InChIKey, IUPAC name, XLogP, SMILES). Good for drugs, supplements, and chemicals.",
+    inputSchema: {
+      type: "object",
+      properties: { name: { type: "string", description: "Compound/drug/supplement name, e.g. 'resveratrol'" } },
+      required: ["name"],
+    },
+  },
+  {
+    name: "dailymed_label",
+    description: "Search DailyMed (NLM) for authoritative FDA Structured Product Labels (SPL). Returns label title, setid, version, date, and a drugInfo URL. Complements openFDA drug/label.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        drugName: { type: "string", description: "Drug name, brand or generic" },
+        pageSize: { type: "number", description: "Max results (default 5, cap 25)" },
+      },
+      required: ["drugName"],
+    },
+  },
+  {
+    name: "chembl_molecule",
+    description: "Search ChEMBL (EMBL-EBI) for a molecule and return development phase (max_phase: 4=approved, 1-3=in trials, 0/null=preclinical), type, first approval, ATC class, and black-box-warning flag. Good for drug/mechanism context.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: { type: "string", description: "Molecule/drug name, e.g. 'rapamycin'" },
+        limit: { type: "number", description: "Max results (default 5, cap 25)" },
+      },
+      required: ["query"],
+    },
+  },
+  {
+    name: "mygene_query",
+    description: "Look up a gene in MyGene.info (BioThings) and return symbol, name, RefSeq summary, aliases, and Entrez ID. Useful gene context (e.g. FOXO3, APOE, KLOTHO). Not patient data.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        query: { type: "string", description: "Gene symbol or name, e.g. 'FOXO3'" },
+        species: { type: "string", description: "Default 'human'" },
+        size: { type: "number", description: "Max results (default 5, cap 25)" },
+      },
+      required: ["query"],
+    },
+  },
 ];
 
 const server = new Server(

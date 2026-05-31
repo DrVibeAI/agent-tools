@@ -21,15 +21,27 @@ third-party packages (this replaces the bogus `biorxiv-mcp-server` /
 | `icd10_search` | NLM Clinical Tables | none | Current FY ICD-10-CM code lookup |
 | `medlineplus_by_code` | MedlinePlus Connect | none | Patient-friendly info for an ICD-10/RxNorm code |
 | `npi_lookup` | NPI Registry (NPPES, CMS) | none | Provider lookup for referral/credentialing workflows |
+| `openalex_search` | OpenAlex | none | Open scholarly works across **all** science (broader than PubMed); OA status + citation counts |
+| `pubchem_compound` | PubChem (NCBI) | none | Compound identity + properties (CID, formula, weight, InChIKey, SMILES) for drugs/supplements/chemicals |
+| `dailymed_label` | DailyMed (NLM SPL) | none | Authoritative FDA Structured Product Labels (setid + drugInfo URL); complements openFDA |
+| `chembl_molecule` | ChEMBL (EMBL-EBI) | none | Molecule development phase (`max_phase`), type, first approval, ATC class, black-box-warning flag |
+| `mygene_query` | MyGene.info (BioThings) | none | Gene symbol/name/RefSeq summary/aliases/Entrez ID (e.g. FOXO3, APOE, KLOTHO) |
 
 Optional env keys are **free** and only raise rate limits.
 
 ## Why not Claude's PubMed connector?
 
-Claude ships an official remote **PubMed** connector (and a Life-Sciences marketplace).
-Great — use it when you're in Claude. This server is **portable** (Codex, Cursor,
-Gemini, any MCP host) and covers what PubMed alone doesn't: ClinicalTrials.gov,
-preprints, openFDA, RxNorm, ICD-10, MedlinePlus, NPI.
+Claude ships an official remote **PubMed** connector. Great — use it when you're in
+Claude. This server is **portable** (Codex, Cursor, Gemini, any MCP host) and covers
+what PubMed alone doesn't, in one free, no-key server: ClinicalTrials.gov, preprints
+(Europe PMC), OpenAlex, openFDA, DailyMed, RxNorm, ICD-10, MedlinePlus, NPI, PubChem,
+ChEMBL, and MyGene.info.
+
+For heavier bench/bioinformatics work, Anthropic's official **Claude for Life
+Sciences** marketplace (`/plugin marketplace add anthropics/life-sciences`) adds
+skills (single-cell RNA QC, nf-core/Nextflow, clinical-trial protocols) and connectors
+(ChEMBL, Open Targets, bioRxiv, Synapse, …). This MCP is **complementary** — a
+lightweight, portable clinical-data layer any agent can use.
 
 ## Install / wire
 

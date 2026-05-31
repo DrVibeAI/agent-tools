@@ -10,6 +10,11 @@ const cases = [
   ["icd10_search", { query: "type 2 diabetes", maxList: 3 }],
   ["medlineplus_by_code", { code: "E11.9", system: "icd10cm" }],
   ["npi_lookup", { lastName: "smith", state: "CA", limit: 2 }],
+  ["openalex_search", { query: "rapamycin aging", perPage: 2 }],
+  ["pubchem_compound", { name: "metformin" }],
+  ["dailymed_label", { drugName: "metformin", pageSize: 2 }],
+  ["chembl_molecule", { query: "metformin", limit: 2 }],
+  ["mygene_query", { query: "FOXO3", size: 2 }],
 ];
 
 let pass = 0;

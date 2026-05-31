@@ -177,6 +177,101 @@ export async function npiLookup({ npi, firstName, lastName, state, taxonomy, lim
   return { source: "NPI Registry (NPPES)", count: results.length, results, source_url: url };
 }
 
+// 9) OpenAlex — free, no key (polite pool via mailto). Open scholarly works across
+//    all of science (broader than PubMed; includes open-access status + citations).
+export async function openalexSearch({ query, perPage = 10, fromYear }) {
+  let url = `https://api.openalex.org/works?search=${enc(query)}&per_page=${Math.min(perPage, 50)}&mailto=team@drvibe.ai`;
+  if (fromYear) url += `&filter=${enc(`from_publication_date:${fromYear}-01-01`)}`;
+  const data = await getJson(url);
+  const results = (data.results || []).map((w) => ({
+    title: w.title,
+    year: w.publication_year,
+    type: w.type,
+    venue: w.primary_location?.source?.display_name,
+    authors: (w.authorships || []).slice(0, 8).map((a) => a.author?.display_name).filter(Boolean),
+    citedByCount: w.cited_by_count,
+    isOpenAccess: w.open_access?.is_oa,
+    doi: w.doi,
+    url: w.doi || w.id,
+  }));
+  return { source: "OpenAlex", query, total: data.meta?.count, count: results.length, results, source_url: url };
+}
+
+// 10) PubChem (PUG-REST, NCBI) — free, no key. Compound identity + key properties
+//     for a drug/supplement/chemical name. Returns 404 for unknown names (handled).
+export async function pubchemCompound({ name }) {
+  const props = "MolecularFormula,MolecularWeight,CanonicalSMILES,InChIKey,IUPACName,XLogP";
+  const url = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/${enc(name)}/property/${props}/JSON`;
+  let data;
+  try {
+    data = await getJson(url);
+  } catch (e) {
+    if (/HTTP 404/.test(e.message)) return { source: "PubChem (PUG-REST)", name, count: 0, results: [], note: "No compound found for that name.", source_url: url };
+    throw e;
+  }
+  const results = (data.PropertyTable?.Properties || []).map((p) => ({
+    cid: p.CID,
+    iupacName: p.IUPACName,
+    molecularFormula: p.MolecularFormula,
+    molecularWeight: p.MolecularWeight,
+    inChIKey: p.InChIKey,
+    xlogp: p.XLogP,
+    smiles: p.CanonicalSMILES,
+    url: p.CID ? `https://pubchem.ncbi.nlm.nih.gov/compound/${p.CID}` : undefined,
+  }));
+  return { source: "PubChem (PUG-REST)", name, count: results.length, results, source_url: url };
+}
+
+// 11) DailyMed (NLM) — free, no key. Authoritative FDA Structured Product Labels
+//     (SPL). Complements openFDA drug/label with the official label record + setid.
+export async function dailymedLabel({ drugName, pageSize = 5 }) {
+  const url = `https://dailymed.nlm.nih.gov/dailymed/services/v2/spls.json?drug_name=${enc(drugName)}&pagesize=${Math.min(pageSize, 25)}`;
+  const data = await getJson(url);
+  const results = (data.data || []).map((d) => ({
+    title: d.title,
+    setid: d.setid,
+    splVersion: d.spl_version,
+    publishedDate: d.published_date,
+    url: d.setid ? `https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=${d.setid}` : undefined,
+  }));
+  return { source: "DailyMed (NLM SPL)", drugName, total: data.metadata?.total_elements, count: results.length, results, source_url: url };
+}
+
+// 12) ChEMBL (EMBL-EBI) — free, no key. Bioactive-molecule data: development phase,
+//     type, ATC class, black-box warning. Good for drug/mechanism context.
+export async function chemblMolecule({ query, limit = 5 }) {
+  const url = `https://www.ebi.ac.uk/chembl/api/data/molecule/search.json?q=${enc(query)}&limit=${Math.min(limit, 25)}`;
+  const data = await getJson(url);
+  const results = (data.molecules || []).map((m) => ({
+    chemblId: m.molecule_chembl_id,
+    name: m.pref_name,
+    maxPhase: m.max_phase,
+    moleculeType: m.molecule_type,
+    firstApproval: m.first_approval,
+    blackBoxWarning: m.black_box_warning === 1,
+    atc: m.atc_classifications || [],
+    url: m.molecule_chembl_id ? `https://www.ebi.ac.uk/chembl/explore/compound/${m.molecule_chembl_id}` : undefined,
+  }));
+  return { source: "ChEMBL", query, count: results.length, results, note: "max_phase: 4=approved, 1-3=in trials, 0/null=preclinical.", source_url: url };
+}
+
+// 13) MyGene.info (BioThings, Scripps) — free, no key. Gene lookup with RefSeq
+//     summary, aliases, and IDs. Useful gene context (e.g. FOXO3, APOE, KLOTHO).
+export async function mygeneQuery({ query, species = "human", size = 5 }) {
+  const url = `https://mygene.info/v3/query?q=${enc(query)}&species=${enc(species)}&size=${Math.min(size, 25)}&fields=symbol,name,summary,alias,entrezgene,type_of_gene`;
+  const data = await getJson(url);
+  const results = (data.hits || []).map((h) => ({
+    symbol: h.symbol,
+    name: h.name,
+    entrezId: h.entrezgene,
+    typeOfGene: h.type_of_gene,
+    aliases: Array.isArray(h.alias) ? h.alias.slice(0, 8) : h.alias ? [h.alias] : [],
+    summary: clip(h.summary, 500),
+    url: h.entrezgene ? `https://www.ncbi.nlm.nih.gov/gene/${h.entrezgene}` : undefined,
+  }));
+  return { source: "MyGene.info", query, total: data.total, count: results.length, results, source_url: url };
+}
+
 export const TOOLS = {
   clinicaltrials_search: clinicaltrialsSearch,
   pubmed_search: pubmedSearch,
@@ -186,4 +281,9 @@ export const TOOLS = {
   icd10_search: icd10Search,
   medlineplus_by_code: medlineplusByCode,
   npi_lookup: npiLookup,
+  openalex_search: openalexSearch,
+  pubchem_compound: pubchemCompound,
+  dailymed_label: dailymedLabel,
+  chembl_molecule: chemblMolecule,
+  mygene_query: mygeneQuery,
 };

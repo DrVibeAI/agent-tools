@@ -25,11 +25,25 @@ jobs:
         run: npm run check
       - name: phi-guard tests (offline)
         run: node packages/phi-guard/test/smoke.mjs
-      - name: Publish @drvibeai/clinical-apis-mcp
-        run: npm publish -w @drvibeai/clinical-apis-mcp --access public --provenance
+      - name: Publish @drvibeai/clinical-apis-mcp (skip if version already on npm)
+        run: |
+          PKG=@drvibeai/clinical-apis-mcp
+          VER=$(node -p "require('./packages/clinical-apis-mcp/package.json').version")
+          if npm view "$PKG@$VER" version >/dev/null 2>&1; then
+            echo "$PKG@$VER already published — skipping"
+          else
+            npm publish -w "$PKG" --access public --provenance
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Publish @drvibeai/phi-guard
-        run: npm publish -w @drvibeai/phi-guard --access public --provenance
+      - name: Publish @drvibeai/phi-guard (skip if version already on npm)
+        run: |
+          PKG=@drvibeai/phi-guard
+          VER=$(node -p "require('./packages/phi-guard/package.json').version")
+          if npm view "$PKG@$VER" version >/dev/null 2>&1; then
+            echo "$PKG@$VER already published — skipping"
+          else
+            npm publish -w "$PKG" --access public --provenance
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
