@@ -13,8 +13,9 @@ Short explainers — built with [HyperFrames](https://hyperframes.heygen.com), v
 | ▶️ [**DrVibe Skills — overview**](media/videos/drvibe-skills-overview.mp4) · 48s | What DrVibe Skills are, how you drop them into Claude / Codex / Cursor / Hermes, and the open stack. |
 | ▶️ [**The AI Physician**](media/videos/the-ai-physician.mp4) · 26s | Practice-management plugin: finances, operations, HIPAA-readiness, research, patient education — ships the clinical-data MCP. |
 | ▶️ [**The AI Resident**](media/videos/the-ai-resident.mp4) · 28s | Six ward commands — notes, differentials, case presentations, evidence, I-PASS handoffs, procedures. PGY-adaptive. |
-| ▶️ [**clinical-apis-mcp**](media/videos/clinical-apis-mcp.mp4) · 32s | Live access to eight free public clinical data sources, from any agent — no API key. |
+| ▶️ [**clinical-apis-mcp**](media/videos/clinical-apis-mcp.mp4) · 32s | Live access to **15** free public clinical + genetic data sources, from any agent — no API key. |
 | ▶️ [**Patient Communication pack**](media/videos/patient-comms.mp4) · 29s | Five front-office skills — education, recall, membership nurture, review responses, visit summaries. |
+| ▶️ [**DrVibe Longevity**](media/videos/drvibe-longevity.mp4) · 45s | The longevity practice-in-a-box: 7 workflows, 15 clinical+genetic databases, evidence grading, deterministic checks. Claude + Codex. |
 
 ## Packages
 
