@@ -1,0 +1,8 @@
+{
+  "name": "physician-website-privacy-audit",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "playwright": "^1.55.0"
+  }
+}

@@ -1,6 +1,6 @@
 # DrVibe Agent Tools
 
-Open-source clinical AI agent tooling from [DrVibe.ai](https://drvibe.ai) — built by physicians, for the physician-builder community. These are the reusable, non-proprietary pieces that power the DrVibe skills platform: MCP servers, PHI-minimization, and (soon) the skill catalog + plugin marketplace.
+Open-source clinical AI agent tooling from [DrVibe.ai](https://drvibe.ai) — built by physicians, for the physician-builder community. These are the reusable, non-proprietary pieces that power the DrVibe skills platform: MCP servers, PHI-minimization, public skills, and plugins.
 
 > **⚠️ Important.** These tools are educational/workflow infrastructure. They are **not** medical advice, **not** a medical device, and come with **no warranty**. They query **public, non-PHI** data sources only — never put protected health information into a query or a third-party model without appropriate agreements and safeguards. See [DISCLAIMER.md](./DISCLAIMER.md).
 
@@ -23,6 +23,10 @@ Short explainers — built with [HyperFrames](https://hyperframes.heygen.com), v
 |---|---|
 | [`@drvibeai/clinical-apis-mcp`](./packages/clinical-apis-mcp) | An MCP server exposing **free public** clinical/biomedical APIs as tools: ClinicalTrials.gov v2, PubMed, Europe PMC (incl. medRxiv/bioRxiv preprints), openFDA, RxNorm, ICD-10-CM, MedlinePlus, NPI Registry. |
 | [`@drvibeai/phi-guard`](./packages/phi-guard) | A PHI-minimization toolkit for agents: a BAA **compliance gate** + local **redact/rehydrate** so patient identifiers never reach a non-BAA model. Risk reduction — *not* certified de-identification. |
+
+## Public skills
+
+Start with the [Physician Website Privacy Audit](./skills/physician-website-privacy-audit/SKILL.md). A GitHub-connected Claude or Codex agent can read that file and inspect a practice's public website without the physician downloading a skill package. See [skills/README.md](./skills/README.md) for an exact prompt and the limits of direct GitHub use.
 
 ## Quick start
 
@@ -47,7 +51,7 @@ The drvibe.ai education + skills platform is a separate, private product. It **c
 
 - ✅ `clinical-apis-mcp` — free public clinical data, one MCP.
 - ✅ `phi-guard` — agent PHI-minimization.
-- ⏭️ `skills` — the public healthcare Agent-Skill catalog + format spec + build tooling.
+- ✅ `skills` — public Agent Skills, starting with a physician website privacy audit. More free skills can be added without exposing the private DrVibe platform.
 - ✅ `marketplace.json` — Claude Code plugin marketplace (`/plugin marketplace add DrVibeAI/agent-tools`).
 
 ## Plugins (Claude Code marketplace)
